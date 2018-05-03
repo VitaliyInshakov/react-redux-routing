@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Profile from '../components/Profile';
+import * as actions from '../actions/index';
 
 class ProfileContainer extends Component {
   render() {
-    const { user } = this.props;
-    return <Profile user={user} />;
+    const { user, logOut } = this.props;
+    return <Profile user={user} logOut={logOut} />;
   }
 }
 
@@ -15,4 +16,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(ProfileContainer);
+export default connect(mapStateToProps, actions)(ProfileContainer);
