@@ -2,13 +2,16 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Btn from './components/Btn';
 import Home from './components/Home';
+import NotFound from './components/NotFound';
 import NewsContainer from './containers/NewsContainer';
 import LoginContainer from './containers/LoginContainer';
+import RequiredAuth from './containers/RequiredAuth';
+import ProfileContainer from './containers/ProfileContainer';
 
 const App = () => (
   <div>
     <header>
-      <div>
+      <div className="nav-bar">
         <Btn pathTo="/" label="Main" />
         <Btn pathTo="/profile" label="Profile" />
         <Btn pathTo="/news" label="News" />
@@ -21,7 +24,7 @@ const App = () => (
         <Route exact path="/" component={Home} />
         <Route path="/news" component={NewsContainer} />
         <Route path="/login" component={LoginContainer} />
-        <Route path="/profile" component={requiredAuth(ProfileContainer)} />
+        <RequiredAuth path="/profile" component={ProfileContainer} />
         <Route component={NotFound} />
       </Switch>
     </div>

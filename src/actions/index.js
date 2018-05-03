@@ -1,7 +1,7 @@
 import { LOG_IN, LOG_OUT, ERROR } from './actionTypes';
 
 function isValidCredentials(data) {
-  if (data.login.toLowerCase() !== 'admin' || data.password !== '12345') return false;
+  if (data.username.toLowerCase() !== 'admin' || data.password !== '12345') return false;
   return true;
 }
 
