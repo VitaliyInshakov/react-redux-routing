@@ -5,18 +5,18 @@ import Snackbar from 'material-ui/Snackbar';
 
 class Login extends Component {
   state = {
-    username: '',
+    email: '',
     password: '',
     isRedirect: false,
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { username, password } = this.state;
+    const { email, password } = this.state;
 
     this.props.logIn(
       {
-        username,
+        email,
         password,
       },
       () => {
@@ -38,7 +38,7 @@ class Login extends Component {
   render() {
     const { location, errMsg } = this.props;
     const { from } = location.state || { from: { pathname: '/' } };
-    const { username, password, isRedirect } = this.state;
+    const { email, password, isRedirect } = this.state;
 
     if (isRedirect) return <Redirect to={from} />;
 
@@ -46,11 +46,11 @@ class Login extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <input
-            data-field-name="username"
+            data-field-name="email"
             type="text"
             onChange={this.handleChange}
-            placeholder="Name"
-            value={username}
+            placeholder="Email"
+            value={email}
           />
           <input
             data-field-name="password"
@@ -62,7 +62,7 @@ class Login extends Component {
           <button type="submit">Log In</button>
         </form>
         <Snackbar
-          open={!!errMsg && !!username}
+          open={!!errMsg && !!email}
           message={errMsg}
           autoHideDuration={4000}
         />

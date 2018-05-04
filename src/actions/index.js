@@ -1,16 +1,21 @@
+import axios from 'axios';
 import { LOG_IN, LOG_OUT, ERROR } from './actionTypes';
 
-function isValidCredentials(data) {
-  if (data.username.toLowerCase() !== 'admin' || data.password !== '12345') return false;
+const API = 'https://mysterious-reef-29460.herokuapp.com/api/v1';
+
+function isValidCredentials(credentials) {
+  if (credentials.email.toLowerCase() !== 'admin' || credentials.password !== '12345') return false;
   return true;
 }
 
-export function logIn(data, cb) {
+export function logIn(credentials, cb) {
   return (dispatch) => {
-    if (isValidCredentials(data)) {
+    axios.post(`${API}/validate`, credentials)
+      .then(({ data }) => console.log(data));
+    if (isValidCredentials(credentials)) {
       dispatch({
         type: LOG_IN,
-        payload: { name: data.username },
+        payload: { name: credentials.email },
       });
       cb();
     } else {
