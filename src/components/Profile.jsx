@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const Profile = ({ user, logOut }) => {
   return (
     <React.Fragment>
-      <h2>Profile: {user.name}</h2>
+      <h2>Profile: {user.email}</h2>
       <button onClick={logOut}>Log Out</button>
     </React.Fragment>
   );
@@ -12,7 +12,7 @@ const Profile = ({ user, logOut }) => {
 
 Profile.propTypes = {
   user: PropTypes.shape({
-    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
   }).isRequired,
   logOut: PropTypes.func.isRequired,
 };

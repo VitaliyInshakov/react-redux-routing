@@ -37,7 +37,7 @@ class Login extends Component {
 
   render() {
     const { location, errMsg } = this.props;
-    const { from } = location.state || { from: { pathname: '/' } };
+    const { from } = location.state || { from: { pathname: '/profile' } };
     const { email, password, isRedirect } = this.state;
 
     if (isRedirect) return <Redirect to={from} />;

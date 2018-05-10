@@ -8,7 +8,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case LOG_IN:
-      return { ...state, user: { name: action.payload.name }, errMsg: '' };
+      return { ...state, user: { email: action.payload.email }, errMsg: '' };
     case LOG_OUT:
       return { ...state, user: null, errMsg: '' };
     case ERROR:
