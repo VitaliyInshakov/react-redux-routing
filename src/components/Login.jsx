@@ -7,6 +7,7 @@ class Login extends Component {
   state = {
     email: '',
     password: '',
+		showPopup: false,
     isRedirect: false,
   }
 
@@ -20,7 +21,11 @@ class Login extends Component {
         password,
       },
       () => {
+				if (this.props.errMsg) {
+					this.setState({ showPopup: true });
+				} else {
         this.setState({ isRedirect: true });
+				}
       },
     );
   }
@@ -35,10 +40,17 @@ class Login extends Component {
     }));
   }
 
+	handleRequestClose = () => {
+    this.setState({
+      password: '',
+			showPopup: false,
+    });
+  };
+	
   render() {
     const { location, errMsg } = this.props;
     const { from } = location.state || { from: { pathname: '/profile' } };
-    const { email, password, isRedirect } = this.state;
+    const { email, password, isRedirect, showPopup } = this.state;
 
     if (isRedirect) return <Redirect to={from} />;
 
@@ -62,9 +74,10 @@ class Login extends Component {
           <button type="submit">Log In</button>
         </form>
         <Snackbar
-          open={!!errMsg && !!email}
+          open={showPopup}
           message={errMsg}
-          autoHideDuration={4000}
+          autoHideDuration={2000}
+					onRequestClose={this.handleRequestClose}
         />
       </div>
     );

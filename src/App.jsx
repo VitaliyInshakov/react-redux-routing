@@ -9,7 +9,7 @@ import RequiredAuth from './containers/RequiredAuth';
 import ProfileContainer from './containers/ProfileContainer';
 
 const App = () => (
-  <div>
+  <div className="container">
     <header>
       <div className="nav-bar">
         <Btn pathTo="/" label="Main" />
