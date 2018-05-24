@@ -1,13 +1,20 @@
 import axios from 'axios';
-import { LOG_IN, LOG_OUT, ERROR } from './actionTypes';
+import {
+  LOG_IN_REQUEST,
+  LOG_IN_SUCCESS,
+  LOG_OUT,
+  ERROR,
+  GET_PROFILE_SUCCESS,
+  GET_PROFILE_FAIL,
+} from './actionTypes';
 
 const API = 'https://mysterious-reef-29460.herokuapp.com/api/v1';
 
-function isValidCredentials(response) {
-  return response.status === 'ok';
+function isValidCredentials(res) {
+  return res.status === 'ok';
 }
 
-function errorHandler(error) {
+function errorHandler(error, errorType) {
   const { status, message } = error;
   let errMsg = '';
   if (status === 404) {
@@ -19,7 +26,7 @@ function errorHandler(error) {
   }
 
   return {
-    type: ERROR,
+    type: errorType,
     payload: { errMsg },
     error: true,
   };
@@ -27,21 +34,22 @@ function errorHandler(error) {
 
 export function logIn(credentials, cb) {
   return (dispatch) => {
+    dispatch({ type: LOG_IN_REQUEST });
     axios.post(`${API}/validate`, credentials)
       .then(({ data }) => {
         if (isValidCredentials(data)) {
           dispatch({
-            type: LOG_IN,
-            payload: { email: credentials.email },
+            type: LOG_IN_SUCCESS,
+            payload: { email: credentials.email, id: data.data.id },
           });
           cb();
         } else {
-          dispatch(errorHandler(data));
+          dispatch(errorHandler(data, ERROR));
           cb();
         }
       })
       .catch((error) => {
-        dispatch(errorHandler(error.response));
+        dispatch(errorHandler(error.response, ERROR));
         cb();
       });
   };
@@ -49,4 +57,22 @@ export function logIn(credentials, cb) {
 
 export function logOut() {
   return { type: LOG_OUT };
+}
+
+export function getProfile(id) {
+  return async (dispatch) => {
+    try {
+      const res = await axios.get(`${API}/user-info/${id}`);
+      if (isValidCredentials(res.data)) {
+        dispatch({
+          type: GET_PROFILE_SUCCESS,
+          payload: res.data.data,
+        });
+      } else {
+        dispatch(errorHandler(res.data, GET_PROFILE_FAIL));
+      }
+    } catch (error) {
+      dispatch(errorHandler(error.response, GET_PROFILE_FAIL));
+    }
+  };
 }

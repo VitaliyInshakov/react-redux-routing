@@ -7,7 +7,7 @@ class Login extends Component {
   state = {
     email: '',
     password: '',
-		showPopup: false,
+    showPopup: false,
     isRedirect: false,
   }
 
@@ -21,11 +21,11 @@ class Login extends Component {
         password,
       },
       () => {
-				if (this.props.errMsg) {
-					this.setState({ showPopup: true });
-				} else {
-        this.setState({ isRedirect: true });
-				}
+        if (this.props.errMsg) {
+          this.setState({ showPopup: true });
+        } else {
+          this.setState({ isRedirect: true });
+        }
       },
     );
   }
@@ -40,15 +40,15 @@ class Login extends Component {
     }));
   }
 
-	handleRequestClose = () => {
+  handleRequestClose = () => {
     this.setState({
       password: '',
-			showPopup: false,
+      showPopup: false,
     });
   };
-	
+
   render() {
-    const { location, errMsg } = this.props;
+    const { location, errMsg, isLoading } = this.props;
     const { from } = location.state || { from: { pathname: '/profile' } };
     const { email, password, isRedirect, showPopup } = this.state;
 
@@ -59,7 +59,7 @@ class Login extends Component {
         <form onSubmit={this.handleSubmit}>
           <input
             data-field-name="email"
-            type="text"
+            type="email"
             onChange={this.handleChange}
             placeholder="Email"
             value={email}
@@ -77,8 +77,9 @@ class Login extends Component {
           open={showPopup}
           message={errMsg}
           autoHideDuration={2000}
-					onRequestClose={this.handleRequestClose}
+          onRequestClose={this.handleRequestClose}
         />
+        {isLoading && <p>Loading...</p>}
       </div>
     );
   }
@@ -86,7 +87,8 @@ class Login extends Component {
 
 Login.propTypes = {
   logIn: PropTypes.func.isRequired,
-  errMsg: PropTypes.string,
+  errMsg: PropTypes.string.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 export default Login;

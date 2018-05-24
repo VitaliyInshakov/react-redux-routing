@@ -1,20 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Profile = ({ user, logOut }) => {
+const Profile = ({ user }) => {
+  if (!user.data) return <span />;
   return (
-    <React.Fragment>
-      <h2>Profile: {user.email}</h2>
-      <button onClick={logOut}>Log Out</button>
-    </React.Fragment>
+    <div style={{ textAlign: 'left' }}>
+      <p><b>Город: </b>{user.data.city}</p>
+      <b>Знание языков:</b>
+      <p>+ {user.data.languages[0]}</p>
+      <p>+ {user.data.languages[1]}</p>
+      <b>Ссылки:</b>
+      {user.data.social.map(item => {
+        return <p key={item.label}><i>+</i> <a href={item.link} target="blank"><img src={`/images/${item.label}.png`} alt={item.label}/></a></p>
+      })}
+    </div>
   );
 };
 
 Profile.propTypes = {
   user: PropTypes.shape({
-    email: PropTypes.string.isRequired,
+    city: PropTypes.string,
+    languages: PropTypes.arrayOf(PropTypes.string),
+    social: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string,
+      link: PropTypes.string,
+    })),
   }).isRequired,
-  logOut: PropTypes.func.isRequired,
 };
 
 export default Profile;
