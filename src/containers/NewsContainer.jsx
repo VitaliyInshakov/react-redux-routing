@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import News from '../components/News';
+import * as actions from '../actions/index';
 
 class NewsContainer extends Component {
+  componentDidMount() {
+    this.props.getNews();
+  }
   render() {
-    const { data } = this.props;
+    const { news: { data, errMsg, isLoading } } = this.props;
 
-    return <News data={data} />
+    return (
+      <React.Fragment>
+        {errMsg && <p>{errMsg}</p>}
+        {isLoading && <p>Loading...</p>}
+        {data && data.length && <News data={data} />}
+      </React.Fragment>
+    );
   }
 }
 
 const mapStateToProps = (state) => ({
-  data: [],
+  news: state.news,
 });
 
-export default connect(mapStateToProps, null)(NewsContainer);
+export default connect(mapStateToProps, actions)(NewsContainer);

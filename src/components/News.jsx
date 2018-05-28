@@ -4,12 +4,23 @@ import PropTypes from 'prop-types';
 const News = ({ data }) => {
   return (
     <div>
-      { data.length ? <p>Some news will be here</p> : <p>No news</p>}
+      {data.map((item) => {
+        return (
+          <div key={item.id}>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+            <hr />
+          </div>
+        );
+      })}
+
+      <br />
+      <p>Всего новостей {data.length}</p>
     </div>
   );
 };
 
-News.propTypes = {
+News.proptypes = {
   data: PropTypes.array.isRequired,
 };
 

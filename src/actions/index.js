@@ -6,6 +6,9 @@ import {
   ERROR,
   GET_PROFILE_SUCCESS,
   GET_PROFILE_FAIL,
+  GET_NEWS_REQUEST,
+  GET_NEWS_SUCCESS,
+  GET_NEWS_FAIL,
 } from './actionTypes';
 
 const API = 'https://mysterious-reef-29460.herokuapp.com/api/v1';
@@ -74,5 +77,25 @@ export function getProfile(id) {
     } catch (error) {
       dispatch(errorHandler(error.response, GET_PROFILE_FAIL));
     }
+  };
+}
+
+export function getNews() {
+  return (dispatch) => {
+    dispatch({ type: GET_NEWS_REQUEST });
+    axios.get(`${API}/news`)
+      .then((res) => {
+        if (isValidCredentials(res.data)) {
+          dispatch({
+            type: GET_NEWS_SUCCESS,
+            payload: res.data.data,
+          });
+        } else {
+          dispatch(errorHandler(res.data, GET_NEWS_FAIL));
+        }
+      })
+      .catch((error) => {
+        dispatch(errorHandler(error.response, GET_NEWS_FAIL));
+      });
   };
 }

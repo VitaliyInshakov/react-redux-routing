@@ -4,3 +4,6 @@ export const LOG_OUT = 'LOG_OUT';
 export const ERROR = 'ERROR';
 export const GET_PROFILE_SUCCESS = 'GET_PROFILE_SUCCESS';
 export const GET_PROFILE_FAIL = 'GET_PROFILE_FAIL';
+export const GET_NEWS_REQUEST = 'GET_NEWS_REQUEST';
+export const GET_NEWS_SUCCESS = 'GET_NEWS_SUCCESS';
+export const GET_NEWS_FAIL = 'GET_NEWS_FAIL';
